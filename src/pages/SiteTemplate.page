@@ -1,0 +1,20 @@
+<apex:page showHeader="false" id="SiteTemplate" standardStylesheets="false">
+  <apex:variable value="{!$Site.Name != ''}" var="isSite" />
+  <apex:stylesheet value="{!URLFOR($Resource.SiteSamples, 'SiteStyles.css')}"/>
+  <apex:insert name="header">
+    <apex:outputPanel layout="none" rendered="{!isSite}">
+      <c:SiteHeader />
+      <hr/>
+    </apex:outputPanel>
+  </apex:insert>
+  <apex:outputPanel layout="block" styleclass="{!IF(isSite, '', 'vf-boot')}" id="namespace">
+    <apex:insert name="body" />
+  </apex:outputPanel>
+  <apex:insert name="footer">
+    <apex:outputPanel layout="none" rendered="{!isSite}">
+      <hr/>
+      <c:SiteFooter />
+      <site:googleAnalyticsTracking />
+    </apex:outputPanel>
+  </apex:insert>
+</apex:page>

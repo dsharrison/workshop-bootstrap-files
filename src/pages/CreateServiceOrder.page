@@ -1,0 +1,40 @@
+<apex:page showHeader="{!$Site.Name == ''}" sidebar="{!$Site.Name == ''}" title="Create Service Order" cache="false" controller="CreateServiceOrderCtrl">
+	<apex:composition template="{!IF($Site.Name == '', $Page.SiteTemplate, $Site.Template)}">
+    <apex:define name="body">
+
+      <h1>Create A Service Order</h1>
+
+      <apex:pageMessages />
+
+      <!--# Case Creation -->
+      <apex:form rendered="{!ISBLANK(caseRecord.Id)}" id="caseForm">
+
+        <!--# Account Lookup -->
+        <apex:outputPanel layout="block" rendered="{!ISBLANK(caseRecord.AccountId)}" id="accountLookup">
+          <h2>Lookup Account</h2>
+          <apex:outputLabel value="{!$ObjectType.Account.fields.Customer_Number__c.label}" />
+          <apex:inputText value="{!customerNumber}" />
+          <apex:commandButton value="Lookup Account" action="{!doAccountLookup}" />
+        </apex:outputPanel>
+        <!--/ Account Lookup -->
+
+        <!--# Case Input -->
+          <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(caseRecord.AccountId))}" id="caseRecord">
+            <h2>Create Service Order</h2>
+            <apex:outputText value="{!customerNumber}" />
+            <apex:inputField value="{!caseRecord.Subject}" />
+            <apex:inputField value="{!caseRecord.Reason}" />
+            <apex:commandButton value="Submit" action="{!submitCase}" />
+          </apex:outputPanel>
+        <!--/ Case Input -->
+
+      </apex:form>
+      <!--/ Case Creation -->
+
+      <apex:form>
+        <apex:commandButton action="{!refresh}" value="Refresh" />
+      </apex:form>
+
+    </apex:define>
+  </apex:composition>
+</apex:page>
